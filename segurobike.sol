@@ -26,5 +26,11 @@ contract SeguroBike {
     mapping(uint => DadosSegurado) public registroSinistro;
     DadosSegurado[] public contagemSinistro; 
     
-    event contratoQuitado (bool quitado);   
+    event contratoQuitado (bool quitado);
+    
+     
+    modifier somenteSeguradora {
+        require(msg.sender == contaSeguradora, "Somente Seguradora");
+    _;
+    }
 }
