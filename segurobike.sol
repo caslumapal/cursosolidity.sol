@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: CC-BY-4.0
+// (c) Desenvolvido por Lucas Palma
+
+pragma solidity 0.8.4;
+
 contract SeguroBike {
     
     address payable public contaSeguradora;
@@ -10,18 +15,16 @@ contract SeguroBike {
         uint quantidadeSinistro;
     }
     
-    uint private valorContrato;
-    uint private valorParcelas;
-    uint public mesesParaPagamento;
+    uint public valorContrato;
     uint public duracaoContrato;
-   
-    bool public quitado;
     
+    constructor () {
+        valorContrato = 100000;
+        duracaoContrato = block.timestamp;
+    }
+   
     mapping(uint => DadosSegurado) public registroSinistro;
     DadosSegurado[] public contagemSinistro; 
     
-    event pagamentoNovaParcela (address contaSegurado, bool quitado);
-    event contratoQuitado (bool quitado);
-   
-    
+    event contratoQuitado (bool quitado);   
 }
