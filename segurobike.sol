@@ -5,45 +5,54 @@ pragma solidity 0.8.4;
 
 contract SeguroBike {
     
-    address payable public contaSeguradora;
-    
-    struct DadosSegurado {
-        string nomeDoSegurado;
-        address payable contaSegurado;
-        uint quantidadeSinistro;
-    }
+    address public contaSeguradora;
     
     uint public valorContrato;
     uint public duracaoContrato;
     uint public pagamentoAVista;
     
-    event contratoQuitado (bool quitado);
+    struct DadosSegurado {
+        address payable contaSegurado;
+        uint quantidadeSinistro;
+    }
     
-    constructor () {
-        valorContrato = 100000;
-        }
-   
-    mapping(uint => DadosSegurado) public registroSinistro;
-    DadosSegurado[] public contagemSinistro; 
+    bool public quitado;
+    
+    event contratoCumprido (uint valorContrato, uint pagamentoAVista, bool quitado);
+    
+    mapping(string => uint) public registroSinistro;
+    string [] tiposDeSinistro; 
     
     
-    modifier somenteSeguradora {
+     modifier somenteSeguradora {
         require(msg.sender == contaSeguradora, "Somente Seguradora");
     _;
     }
     
-    function inserirPagamentoAVista (uint valorPago) public {
-        pagamentoAVista = valorPago;    
+    constructor () {
+        valorContrato = 1000;
+        contaSeguradora = msg.sender; 
     }
+    
+   
+   
+    
+    function inserirPagamentoAVista (uint valorPago) payable public{
+        pagamentoAVista = valorPago;
+        }
+    
         
-    function verificarValor (uint verificarPagamento) public view returns (bool quitado) {         
-        if (verificarPagamento == valorContrato) {
+    function verificarValor (uint verificarPagamento) public view returns (bool _quitado) { 
+        
+        if (verificarPagamento >= valorContrato) {
             return true;
         } else {
             return false;
         }    
-                    }
-                    
-                       
     }
+  
+   function incluirSinistro(string memory _incluirSinistro) public {
+        tiposDeSinistro.push(_incluirSinistro);}
     
+    
+    }
