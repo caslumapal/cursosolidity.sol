@@ -8,23 +8,24 @@ contract SeguroBike {
     address public contaSeguradora;
     
     uint public valorContrato;
-    uint public duracaoContrato;
+    uint public duracaoContrato; //xxxxxxxxxxxxxxxxx
     uint public pagamentoAVista;
     
-    struct DadosSegurado {
+    struct DadosSegurado { //xxxxxxxxxxxxxxxxx
         address payable contaSegurado;
-        uint quantidadeSinistro;
+        string nomeSegurado;
     }
     
     bool public quitado;
     
-    event contratoCumprido (uint valorContrato, uint pagamentoAVista, bool quitado);
+    event contratoCumprido (uint valorContrato, uint pagamentoAVista, bool quitado); // xxxxxxxxxxxxx
     
+    //vincula um tipo de sinistro à quantidade
     mapping(string => uint) public registroSinistro;
-    string [] tiposDeSinistro; 
+    string [] Sinistros; 
     
     
-     modifier somenteSeguradora {
+     modifier somenteSeguradora { //xxxxxxxxxxxxxxxxxxxxx
         require(msg.sender == contaSeguradora, "Somente Seguradora");
     _;
     }
@@ -39,7 +40,8 @@ contract SeguroBike {
     
     function inserirPagamentoAVista (uint valorPago) payable public{
         pagamentoAVista = valorPago;
-        }
+        
+    }
     
         
     function verificarValor (uint verificarPagamento) public view returns (bool _quitado) { 
@@ -51,8 +53,15 @@ contract SeguroBike {
         }    
     }
   
-   function incluirSinistro(string memory _incluirSinistro) public {
-        tiposDeSinistro.push(_incluirSinistro);}
-    
-    
+   function quantidadeSinistro(string memory _incluirQuantidadeSinistro) public {
+        Sinistros.push(_incluirQuantidadeSinistro);
+       
+   }
+   
+   function incluirTipoSinistro(string memory _tipoSinistro, uint _quantificacao) public {
+        registroSinistro[_tipoSinistro] = _quantificacao;
+       
+   }
+   
+   
     }
