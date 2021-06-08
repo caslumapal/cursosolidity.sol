@@ -3,29 +3,30 @@
 
 pragma solidity 0.8.4;
 
+//Contrato de Seguro de bicicleta
+//Possibilidade de insluir valores ao Contrato
+//É possível consultar o valor pago a vista e comparar com o valor do Contrato
 contract SeguroBike {
     
     address public contaSeguradora;
     
     uint public valorContrato;
-    uint public duracaoContrato; //xxxxxxxxxxxxxxxxx
     uint public pagamentoAVista;
     
-    struct DadosSegurado { //xxxxxxxxxxxxxxxxx
+    struct DadosSegurado { 
         address payable contaSegurado;
         string nomeSegurado;
     }
-    
+   
     bool public quitado;
     
     event contratoCumprido (uint valorContrato, uint pagamentoAVista, bool quitado); // xxxxxxxxxxxxx
     
-    //vincula um tipo de sinistro à quantidade
+ //Vincula um tipo de sinistro à quantidade das ocorrências
     mapping(string => uint) public registroSinistro;
     string [] Sinistros; 
     
-    
-     modifier somenteSeguradora { //xxxxxxxxxxxxxxxxxxxxx
+    modifier somenteSeguradora {
         require(msg.sender == contaSeguradora, "Somente Seguradora");
     _;
     }
@@ -35,18 +36,13 @@ contract SeguroBike {
         contaSeguradora = msg.sender; 
     }
     
-   
-   
-    
     function inserirPagamentoAVista (uint valorPago) payable public{
         pagamentoAVista = valorPago;
-        
     }
     
+    function verificarValor (uint _pagamentoAVista) public view returns (bool _quitado) { 
         
-    function verificarValor (uint verificarPagamento) public view returns (bool _quitado) { 
-        
-        if (verificarPagamento >= valorContrato) {
+        if (_pagamentoAVista > valorContrato) {
             return true;
         } else {
             return false;
@@ -55,13 +51,11 @@ contract SeguroBike {
   
    function quantidadeSinistro(string memory _incluirQuantidadeSinistro) public {
         Sinistros.push(_incluirQuantidadeSinistro);
-       
    }
    
    function incluirTipoSinistro(string memory _tipoSinistro, uint _quantificacao) public {
         registroSinistro[_tipoSinistro] = _quantificacao;
-       
-   }
+    }
    
    
     }
